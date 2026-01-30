@@ -3,8 +3,14 @@
 Built with love by Moon Dev 🚀
 """
 
-# 🔄 Exchange Selection
-EXCHANGE = 'hyperliquid'  # Options: 'solana', 'hyperliquid'
+import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
+
+# 🔄 Exchange Selection - Read from .env file (Options: 'solana', 'hyperliquid')
+EXCHANGE = os.getenv('EXCHANGE', 'hyperliquid').lower()
 
 # 💰 Trading Configuration
 USDC_ADDRESS = "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"  # Never trade or close

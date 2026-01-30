@@ -80,8 +80,8 @@ Built with love by Moon Dev 🚀
 # 🔧 TRADING AGENT CONFIGURATION - ALL SETTINGS IN ONE PLACE
 # ============================================================================
 
-# 🏦 EXCHANGE SELECTION
-EXCHANGE = "HYPERLIQUID"  # Options: "ASTER", "HYPERLIQUID", "SOLANA"
+# 🏦 EXCHANGE SELECTION - Read from .env file (Options: "ASTER", "HYPERLIQUID", "SOLANA")
+EXCHANGE = os.getenv('EXCHANGE', 'HYPERLIQUID').upper()
                      # - "ASTER" = Aster DEX futures (supports long/short)
                      # - "HYPERLIQUID" = HyperLiquid perpetuals (supports long/short)
                      # - "SOLANA" = Solana on-chain DEX (long only)
