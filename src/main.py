@@ -20,16 +20,17 @@ from src.agents.trading_agent import TradingAgent
 from src.agents.risk_agent import RiskAgent
 from src.agents.strategy_agent import StrategyAgent
 from src.agents.copybot_agent import CopyBotAgent
-from src.agents.sentiment_agent import SentimentAgent
+# Sentiment agent requires torch - uncomment if needed
+# from src.agents.sentiment_agent import SentimentAgent
 
 # Load environment variables
 load_dotenv()
 
 # Agent Configuration
 ACTIVE_AGENTS = {
-    'risk': False,      # Risk management agent
-    'trading': False,   # LLM trading agent
-    'strategy': False,  # Strategy-based trading agent
+    'risk': True,      # Risk management agent
+    'trading': True,   # LLM trading agent
+    'strategy': True,  # Strategy-based trading agent
     'copybot': False,   # CopyBot agent
     'sentiment': False, # Run sentiment_agent.py directly instead
     # whale_agent is run from whale_agent.py
@@ -45,7 +46,8 @@ def run_agents():
         risk_agent = RiskAgent() if ACTIVE_AGENTS['risk'] else None
         strategy_agent = StrategyAgent() if ACTIVE_AGENTS['strategy'] else None
         copybot_agent = CopyBotAgent() if ACTIVE_AGENTS['copybot'] else None
-        sentiment_agent = SentimentAgent() if ACTIVE_AGENTS['sentiment'] else None
+        # sentiment_agent requires torch - uncomment import above if needed
+        sentiment_agent = None
 
         while True:
             try:
