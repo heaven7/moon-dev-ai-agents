@@ -137,7 +137,15 @@ def get_position(symbol, account=None):
 
     if not im_in_pos:
         print(f'{colored("No position in", "yellow")} {symbol}')
-        return positions, im_in_pos, 0, symbol, 0, 0, True
+        # Return dict format expected by trading_agent.py
+        return {
+            'position_amount': 0,
+            'pnl_percentage': 0,
+            'pnl': 0,
+            'mark_price': 0,
+            'entry_price': 0,
+            'is_long': True
+        }
 
     # Return position details
     pos_size = positions[0]["szi"]
@@ -151,7 +159,15 @@ def get_position(symbol, account=None):
     else:
         print(f'{colored("SHORT", "red")} position')
 
-    return positions, im_in_pos, pos_size, pos_sym, entry_px, pnl_perc, is_long
+    # Return dict format expected by trading_agent.py
+    return {
+        'position_amount': float(pos_size),
+        'pnl_percentage': pnl_perc,
+        'pnl': 0,  # Calculated from PnL percentage if needed
+        'mark_price': entry_px,
+        'entry_price': entry_px,
+        'is_long': is_long
+    }
 
 def set_leverage(symbol, leverage, account):
     """Set leverage for a symbol"""
