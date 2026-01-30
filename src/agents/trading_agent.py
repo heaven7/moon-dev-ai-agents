@@ -76,6 +76,8 @@ CONFIGURATION:
 Built with love by Moon Dev 🚀
 """
 
+import os  # Import os at top for environment variable access
+
 # ============================================================================
 # 🔧 TRADING AGENT CONFIGURATION - ALL SETTINGS IN ONE PLACE
 # ============================================================================
@@ -262,7 +264,6 @@ IMPORTANT: "Do Nothing" means maintain current position (if we have one, keep it
 
 RESPOND WITH ONLY ONE WORD: Buy, Sell, or Do Nothing"""
 
-import os
 import sys
 import pandas as pd
 import json
