@@ -34,11 +34,17 @@ load_dotenv()
 
 # API URL Selection based on TESTNET flag
 USE_TESTNET = os.getenv('USE_TESTNET', 'false').lower() == 'true'
+
+def get_api_url():
+    """Get appropriate API URL based on TESTNET setting"""
+    if USE_TESTNET:
+        return constants.TESTNET_API_URL
+    else:
+        return constants.MAINNET_API_URL
+
 if USE_TESTNET:
-    API_URL = constants.TESTNET_API_URL
     cprint("🧪 Using HyperLiquid TESTNET (paper trading)", "yellow", attrs=['bold'])
 else:
-    API_URL = API_URL
     cprint("🚀 Using HyperLiquid MAINNET", "cyan", attrs=['bold'])
 
 # Hide all warnings
@@ -129,7 +135,7 @@ def get_position(symbol, account=None):
         account = _get_account_from_env()
     print(f'{colored("Getting position for", "cyan")} {colored(symbol, "yellow")}')
 
-    info = Info(API_URL, skip_ws=True)
+    info = Info(get_api_url(), skip_ws=True)
     user_state = info.user_state(account.address)
 
     positions = []
@@ -214,7 +220,7 @@ def cancel_all_orders(account):
     """Cancel all open orders"""
     print(colored('🚫 Cancelling all orders', 'yellow'))
     exchange = Exchange(account, API_URL)
-    info = Info(API_URL, skip_ws=True)
+    info = Info(get_api_url(), skip_ws=True)
 
     # Get all open orders
     open_orders = info.open_orders(account.address)
@@ -261,7 +267,7 @@ def kill_switch(symbol, account):
     """Close position at market price"""
     print(colored(f'🔪 KILL SWITCH ACTIVATED for {symbol}', 'red', attrs=['bold']))
 
-    info = Info(API_URL, skip_ws=True)
+    info = Info(get_api_url(), skip_ws=True)
     exchange = Exchange(account, API_URL)
 
     # Get current position
@@ -339,7 +345,7 @@ def get_account_value(account=None):
     """Get total account value"""
     if account is None:
         account = _get_account_from_env()
-    info = Info(API_URL, skip_ws=True)
+    info = Info(get_api_url(), skip_ws=True)
     user_state = info.user_state(account.address)
     account_value = float(user_state["marginSummary"]["accountValue"])
     print(f'Account value: ${account_value:,.2f}')
@@ -439,7 +445,7 @@ def close_position(symbol, account):
 # Additional helper functions for agents
 def get_balance(account):
     """Get USDC balance"""
-    info = Info(API_URL, skip_ws=True)
+    info = Info(get_api_url(), skip_ws=True)
     user_state = info.user_state(account.address)
 
     # Get withdrawable balance (free balance)
@@ -449,7 +455,7 @@ def get_balance(account):
 
 def get_all_positions(account):
     """Get all open positions"""
-    info = Info(API_URL, skip_ws=True)
+    info = Info(get_api_url(), skip_ws=True)
     user_state = info.user_state(account.address)
 
     positions = []
@@ -479,7 +485,7 @@ def _get_exchange():
 
 def _get_info():
     """Get info instance"""
-    return Info(API_URL, skip_ws=True)
+    return Info(get_api_url(), skip_ws=True)
 
 def _get_account_from_env():
     """Initialize and return HyperLiquid account from env"""
